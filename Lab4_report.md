@@ -167,3 +167,5 @@ Nhấn vào  IIS logs --> chọn sourcetype từ
 ![alt text](lab4_22.png)
 
 Và còn nhiều loại log hơn nữa, ....
+
+<p style="text-align:center; color:green; font-weight:bold; text-decoration:underline;"> Happy hacking, happy life ! </p> 
