@@ -201,8 +201,6 @@ Lên trang [GrokDebugger](https://grokdebugger.com/)
 
 ![alt text](lab5_24.png)
 
-/var/log/syslog 
-
 #### <p style="color:red; font-weight:bold; text-decoration:underline;">  Parse log từ: /var/log/syslog </p>
 
 Lệnh sau: `tail -n 15 /var/log/syslog`
