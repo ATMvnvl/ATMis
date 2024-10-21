@@ -106,3 +106,7 @@ Sau khi hoàn tất tấn công để xem các log của Snort IDS mở thư m�
 Kết quả: TCP và FIN scan
 
 ![alt text](lab4_12.png)
+
+Kết quả: XMAS
+
+![alt text](lab4_13.png)
