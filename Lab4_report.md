@@ -32,7 +32,11 @@ Kết quả: rất nhiều login với tên Jason và ip login
 
 ![alt text](lab_4_5.png)
 
-#### Các Event ID khác 
+<p style="text-align:center; color:green; font-weight:bold; text-decoration:underline;">
+</p>
+
+#### <p style="color:red; font-weight:bold; text-decoration:underline;"> Các Event ID khác </p>
+
 | Event ID | Trường hợp sinh ra/Lý do giám sát | 
 | -------  | --------------------------------- |
 | 4625 (Failed logon) | -  Được ghi lại khi đăng nhập không thành công vào máy tính <br> - Để phát hiện các cuộc tấn công brute-force, từ điển và các cuộc tấn công đoán mật khẩu khác, được đặc trưng bởi sự gia tăng đột ngột trong các lần đăng nhập bị lỗi <br> - Để đạt được điểm chuẩn cho cài đặt chính sách ngưỡng khóa tài khoản <br> - Trường thông tin được cung cấp: Security ID, Account Name, Account, Domain, Logon ID | 
