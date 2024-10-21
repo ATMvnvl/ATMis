@@ -35,7 +35,8 @@ Kết quả: rất nhiều login với tên Jason và ip login
 <p style="text-align:center; color:green; font-weight:bold; text-decoration:underline;">
 </p>
 
-#### <p style="color:red; font-weight:bold; text-decoration:underline;"> Các Event ID khác </p>
+#### <span style="color:red">Các Event ID khác</span>
+
 
 | Event ID | Trường hợp sinh ra/Lý do giám sát | 
 | -------  | --------------------------------- |
