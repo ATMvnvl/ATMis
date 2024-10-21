@@ -63,16 +63,46 @@ Kết quả: rất nhiều login với tên Jason và ip login
 
 ### Task 2: Local Logging: Cấu hình, Giám sát và Phân tích IIS Logs
 
+Bật dịch vụ ISS 
 
+Thực hiện tấn công sqlmap lệnh sau:
+`sqlmap -u "http://www.moviescope.com/viewprofile.aspx?id=7" --cookie="mscope=jJH/XtdJK24=; ui-tabs-1=0"  -D moviescope --tables`
+ 
+Sau khi tấn công thành công vào path sau check log:  C:\inetpub\logs\logFiles
 
+![alt text](lab4_6.png)
 
+### Task 3: Local Logging: Cấu hình, Giám sát và Phân tích IDS Logs 
 
+Kiểm tra danh sách card mạng bằng lệnh: `snort -W`
 
+![alt text](lab4_7.png)
 
+Để kích hoạt card mạng lên thì ta dùng lệnh `snort -dev -i 4` và nhấn Enter. Trong đó -i 4 là số Index của card mạng
 
+![alt text](lab4_8.png)
 
+Mở thêm 1 tab test ping tới máy kali ip sau: `ping 192.168.108.195`
 
+![alt text](lab4_9.png)
 
+Sau khi cấu hình các file config xong chạy lệnh sau: `snort -i4 -A console -c C:\Snort\etc\snort.conf -l C:\Snort\log -A full`
 
+Chạy đúng râ kết quả như sau: có pid=722 
 
+![alt text](image.png)
 
+Mở máy kali để  ra các log liên quan đến network scanning
+Cú pháp : 192.168.108.194: IP máy windows-server
+- nmap -sN -T4 -A -v 192.168.108.194
+- nmap -sX -T4 192.168.108.194
+- nmap -sF -T4 192.168.108.194
+- nmap -sU -T5 192.168.108.194
+
+![alt text](lab4_11.png)
+
+Sau khi hoàn tất tấn công để xem các log của Snort IDS mở thư mục `C:\Snort\log` sẽ thấy tệp có tên `alert.ids`
+
+Kết quả: TCP và FIN scan
+
+![alt text](lab4_12.png)
