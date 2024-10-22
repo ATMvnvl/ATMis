@@ -364,3 +364,119 @@ Trong đó:
 Hình ảnh tổng quan:
 
 ![alt text](lab5_26.png)
+
+#### <p style="color:red; font-weight:bold; text-decoration:underline;">  Parse log từ: /var/log/apt </p>
+
+Tương tự:
+
+![alt text](lab5_27.png)
+
+Kết quả Gork:
+
+![alt text](lab5_28.png)
+
+Trong đó: 
++ `%{TIMESTAMP_ISO8601}`: Trích xuất thời gian theo định dạng ISO8601
++ `%{LOGLEVEL}`: Trích xuất mức độ log (log level)
++ `%{DATA}`: Trích xuất tên module hoặc thành phần thực hiện hành động log
++ `%{GREEDYDATA}`: Trích xuất toàn bộ nội dung còn lại của log sau dấu hai chấm 
+
+#### <p style="color:red; font-weight:bold; text-decoration:underline;">  Parse log từ: /var/log/auth.log </p>
+
+Tương tự:
+
+![alt text](image-4.png)
+
+Kết quả: 
+
+![alt text](lab5_30.png)
+
+Trong đó:
++ `%{SYSLOGTIMESTAMP}`: Trích xuất thời gian của log theo định dạng thời gian của hệ thống
++ `%{DATA}`: Trích xuất tên hệ điều hành hoặc tên máy chủ mà log được ghi lại
++ `%{DATA}`: Trích xuất tên dịch vụ ghi lại log 
++ `:` : Trích xuất PID (Process ID) của tiến trình
++ `%{GREEDYDATA}`: Trích xuất toàn bộ nội dung còn lại của dòng log, bao gồm thông tin về hành động hoặc lệnh được thực thi
+
+### Task 6: Centralized Logging: Thu thập log tập trung với Splunk 
+
+Sau khi cài đặt xong để SOC-Linux đẩy về SOC-Splunk
+
+Vào  mục `Data Sumary` ta sẽ thấy đã có logs từ máy Linux gửi về
+
+![alt text](lab5_31.png)
+
+![alt text](lab5_32.png)
+
+Giờ ta sẽ thử phân tích lại trường hợp tấn công DoS bên trên. Nhấp vào mục `All 
+Fields` và chọn các trường như ảnh bên dưới
+
+Nhấp vào trường `source` ta chọn `/var/log/apache2/access.log* `
+
+Lúc này để ý ở thanh search của Splunk ta sẽ thấy nó đã có dạng:
++ `host="linux.soc.local" source="/var/log/apache2/access.log.1"`
+  + host="linux.soc.local": Tìm kiếm tất cả logs từ máy SOC-Linux
+  + source="/var/log/apache2/access.log*": Lọc log từ tệp log Apache2
+  
+Tiếp theo ta chọn vào `clientip` sau đó chọn `Top Values` và sau đó chọn qua `Statistics` ta sẽ thấy được số lượng request đến từ địa chỉ IP
++ `top limit=20 clientip`: Lệnh này giới hạn kết quả chỉ hiển thị 20 giá trị 
+phổ biến nhất
+
+![alt text](lab5_33.png)
+
+Thử thêm vài máy hoặc đổi IP để check tấn công DoS rồi lọc với cú pháp sau:
+`host="linux.soc.local" source="/var/log/apache2/access.log"| stats count by 
+clientip | where count > 1000`
++ `stats count by clientip`: Tạo thống kê số lượng yêu cầu từ từng địa chỉ 
+IP (clientip)
++ `where count > 1000`: Lọc ra các địa chỉ IP đã gửi hơn 1000 yêu cầu 
+
+![alt text](lab5_34.png)
+
+Nhấn vào tab `Visualization` để Splunk xuất ra biểu đồ. Dựa vào biểu đồ sẽ cho ta cái nhìn tổng quan hơn về địa chỉ IP nào tấn công DoS
+
+![alt text](lab5_35.png)
+
+Tiếp theo ta tạo 1 câu search nâng cao hơn: `host="linux.soc.local" source="/var/log/apache2/access.log"| bin _time span=30s | stats count by clientip _time | where count > 20 | timechart span=30s sum(count) by clientip`
++ `bin _time span=30s`: Chia nhỏ dữ liệu theo khoảng thời gian 30 giây
++ `stats count by clientip _time`: Đếm số lượng yêu cầu từ từng địa chỉ IP theo từng khoảng thời gian 30 giây
++ `where count > 20`: Lọc ra các địa chỉ IP gửi hơn 20 yêu cầu trong 30 giây
++ `timechart span=30s sum(count) by clientip`: Vẽ biểu đồ theo thời gian 30 giây, hiển thị tổng số yêu cầu từ mỗi địa chỉ IP trong khoảng thời gian đó
+
+![alt text](lab5_36.png)
+
+Làm lại các task lab3 
+
+#### Task 3 lab3: Brute Force Attacks vào SOC-LINUX
+
+`Dấu hiệu nhận biết`: Phân tích log `/var/log/auth.log` vì đây là lưu sự kiện liên quan đến xác thực, số lượng các đăng nhập thất bại từ một ip với khoảng thời gian ngắn
+
+Kiểm tra log:
+
+![alt text](Lab5_39.png)
+
+
+#### Task 4 lab3 : Discovery Backup and Unreferenced Files 
+
+`Dấu hiệu nhận biết`: Dựa vào client sẽ gửi rất nhiều yêu cầu
+GET với các đuôi file như .tar, .zip,… và trạng thái trả về là 200 hoặc 404
+
+Sau khi tấn công xong 
+
+Kết quả: rất nhiều GET đẩy về log tại path: `/opt/tomcat/logs/`
+
+Dùng lệnh tail theo thời gian thực : `tail -f /opt/tomcat/logs/localhost_access_log.*.txt`
+
+![alt text](lab5_40.png)
+
+#### Task 5 lab3: Exploitation 
+
+`Dấu hiện nhận biết`: Phân tích `/opt/tomcat/logs/` tìm kiếm truy cập bất thường `manager/html` với mã phản hồi HTTP 401 (Unauthorized) hoặc 200 (Success) và các yêu cầu GET với POST
+
+Dùng grep: `grep "/manager/html" /opt/tomcat/logs/* `
+
+Kết quả : Thấy rất nhiều yêu cầu POST/GET, upload, ...
+
+![alt text](lab5_41.png)
+
+
